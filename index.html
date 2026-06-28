@@ -8,15 +8,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- ADDED: DRACOLoader to support compressed .glb files -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&display=swap');
         body { background-color: #0d0d0d; color: #e5e5e5; font-family: 'Space Grotesk', sans-serif; }
         .tactical-border { border: 1px solid #404040; }
-        .viewer-box { width: 100%; height: 280px; background: #ffffff; position: relative; } /* Light background for clean look */
+        .viewer-box { width: 100%; height: 280px; background: #ffffff; position: relative; } /* Whitewash background */
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
+        
+        /* Loading Spinner */
+        .loading-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #666; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body class="p-4 md:p-8">
+
+    <!-- DIAGNOSTIC WARNING: Shows only if run locally without a server -->
+    <div id="local-warning" class="hidden bg-red-900 text-white p-4 mb-6 tactical-border text-xs uppercase tracking-widest font-bold">
+        ⚠ SYSTEM WARNING: Local File Protocol detected (file://). Browsers block 3D models from loading locally due to CORS security. Please use a local server (like VS Code Live Server) or host on GitHub Pages.
+    </div>
 
     <header class="mb-8 flex justify-between items-end border-b border-gray-700 pb-4">
         <div>
@@ -28,12 +38,12 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Asset Viewers Grid -->
         <div class="md:col-span-3 grid grid-cols-2 lg:grid-cols-3 gap-4">
-            <div id="v1" class="viewer-box tactical-border" data-file="KORU.GLB"></div>
-            <div id="v2" class="viewer-box tactical-border" data-file="ZYXAR.GLB"></div>
-            <div id="v3" class="viewer-box tactical-border" data-file="NYAR.GLB"></div>
-            <div id="v4" class="viewer-box tactical-border" data-file="ROGAR.GLB"></div>
-            <div id="v5" class="viewer-box tactical-border" data-file="KORU-HUD.GLB"></div>
-            <div id="v6" class="viewer-box tactical-border" data-file="ZYXAR-HUD.GLB"></div>
+            <div id="v1" class="viewer-box tactical-border" data-file="KORU.glb"><div class="loading-text">Scanning...</div></div>
+            <div id="v2" class="viewer-box tactical-border" data-file="ZYXAR.glb"><div class="loading-text">Scanning...</div></div>
+            <div id="v3" class="viewer-box tactical-border" data-file="NYAR.glb"><div class="loading-text">Scanning...</div></div>
+            <div id="v4" class="viewer-box tactical-border" data-file="ROGAR.glb"><div class="loading-text">Scanning...</div></div>
+            <div id="v5" class="viewer-box tactical-border" data-file="KORU-HUD.glb"><div class="loading-text">Scanning...</div></div>
+            <div id="v6" class="viewer-box tactical-border" data-file="ZYXAR-HUD.glb"><div class="loading-text">Scanning...</div></div>
         </div>
 
         <!-- Media/Story Section -->
@@ -51,68 +61,104 @@
         <!-- Audio/Data Section -->
         <div class="glass p-6 tactical-border">
             <h3 class="text-xs uppercase mb-4 text-gray-400">Audio Orchestration</h3>
-            <audio controls class="w-full mb-6 filter invert sepia" src="assets/EDENDSNTRK.mp3"></audio>
-            <div class="text-[10px] text-gray-600 uppercase font-mono">
-                System Status: Active<br>Lighting: Global Whitewash PBR<br>Path: /assets/
+            <audio id="bg-audio" controls class="w-full mb-6 filter invert sepia" src="assets/EDENDSNTRK.mp3"></audio>
+            <div class="text-[10px] text-gray-600 uppercase font-mono leading-relaxed">
+                System Status: Active<br>Lighting: Global Whitewash PBR<br>Encoding: sRGB / ACESFilmic<br>Path: /assets/
             </div>
         </div>
     </div>
 
     <script>
+        // Check for Local File protocol to warn user
+        if (window.location.protocol === 'file:') {
+            document.getElementById('local-warning').classList.remove('hidden');
+        }
+
         const story = "Earth is a memory. The Zytherons farm human data ghosts. Koru and his squad must choose between restoring a dead humanity or forging a new primal evolution.";
         document.getElementById('storyDisplay').innerText = story;
+
+        // Set up Draco Decoder globally for compressed GLBs
+        const dracoLoader = new THREE.DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
 
         function initViewer(id) {
             const container = document.getElementById(id);
             const fileName = container.getAttribute('data-file');
+            const path = `assets/${fileName}`;
             
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xffffff); // White background
+            scene.background = new THREE.Color(0xffffff); // Force White
             
             const camera = new THREE.PerspectiveCamera(40, container.clientWidth/280, 0.1, 1000);
+            
             const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, 280);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.outputEncoding = THREE.sRGBEncoding; // Critical for PBR colors
+            renderer.toneMapping = THREE.ACESFilmicToneMapping; // Cinematic exposure
+            renderer.toneMappingExposure = 1.0;
             container.appendChild(renderer.domElement);
 
             // GLOBAL WHITEWASH LIGHTING RIG
-            // Ambient base
-            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-            
-            // Hemisphere light for natural sky-fill (eliminates harsh bottom shadows)
-            const hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.8);
+            scene.add(new THREE.AmbientLight(0xffffff, 1.2)); // Strong base ambient
+            const hemi = new THREE.HemisphereLight(0xffffff, 0xe0e0e0, 1.0); // Sky/Ground light
             scene.add(hemi);
-
-            // 3-Point Light System for clean professional look
-            const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
-            frontLight.position.set(0, 0, 5);
+            
+            const frontLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            frontLight.position.set(2, 5, 5);
             scene.add(frontLight);
 
-            const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            topLight.position.set(0, 5, 0);
-            scene.add(topLight);
-            
-            const sideLight = new THREE.DirectionalLight(0xffffff, 0.3);
-            sideLight.position.set(5, 0, 0);
-            scene.add(sideLight);
-
             const loader = new THREE.GLTFLoader();
-            loader.load(`assets/${fileName}`, (gltf) => {
-                scene.add(gltf.scene);
-            }, undefined, () => {
-                // Placeholder
-                const geo = new THREE.BoxGeometry(1, 1, 1);
-                const mat = new THREE.MeshBasicMaterial({ color: 0xcccccc });
-                scene.add(new THREE.Mesh(geo, mat));
+            loader.setDRACOLoader(dracoLoader); // Inject Draco support
+            
+            loader.load(path, (gltf) => {
+                // Remove loading text
+                const loadingDiv = container.querySelector('.loading-text');
+                if(loadingDiv) loadingDiv.remove();
+
+                const model = gltf.scene;
+
+                // --- AUTO-CENTER AND AUTO-SCALE ALGORITHM ---
+                // This guarantees the model fits perfectly in the camera view regardless of its original exported size
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                
+                // Center it
+                model.position.sub(center);
+                // Scale it down/up to fit a 2.5 unit box
+                const scale = 2.5 / maxDim;
+                model.scale.set(scale, scale, scale);
+
+                scene.add(model);
+            }, undefined, (err) => {
+                console.error("Asset Load Failure for:", path, err);
+                const loadingDiv = container.querySelector('.loading-text');
+                if(loadingDiv) {
+                    loadingDiv.innerText = "FILE NOT FOUND";
+                    loadingDiv.style.color = "#ff0000";
+                }
             });
 
             camera.position.z = 4;
-            new THREE.OrbitControls(camera, renderer.domElement);
-            function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            function animate() { 
+                requestAnimationFrame(animate); 
+                controls.update();
+                renderer.render(scene, camera); 
+            }
             animate();
         }
 
         ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'].forEach(initViewer);
+
+        // Audio error handling logger
+        document.getElementById('bg-audio').addEventListener('error', function(e) {
+            console.error("Audio File Load Error. Make sure 'assets/EDENDSNTRK.mp3' exists and exactly matches the case.", e);
+        });
     </script>
 </body>
 </html>
