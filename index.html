@@ -14,94 +14,36 @@
         .brutalist-card { border: 1px solid #333; background: #151515; }
         .view-port { width: 100%; height: 280px; background: #050505; position: relative; }
         .tactical-text { letter-spacing: 0.15em; text-transform: uppercase; }
-        #splash { transition: opacity 0.8s ease; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <!-- SPLASH SCREEN -->
     <div id="splash" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-pointer" onclick="this.style.opacity='0'; setTimeout(() => this.style.display='none', 800)">
-        <img src="primal.jpg" alt="Splash" class="w-full h-full object-cover opacity-80">
-        <div class="absolute bottom-20 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-white">PROJECT: PRIMAL</h1>
-            <p class="text-gray-400 tactical-text mt-4 animate-pulse">Click to Initialize Command Deck</p>
-        </div>
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-white">PROJECT: PRIMAL</h1>
+        <p class="text-gray-400 tactical-text mt-4 animate-pulse">Click to Initialize Command Deck</p>
     </div>
 
     <header class="mb-10 border-l-4 border-white pl-6">
         <h1 class="text-5xl font-bold uppercase tracking-tighter text-white">Project: PRIMAL</h1>
-        <p class="text-xl text-gray-500 uppercase tactical-text">The Fight for Eden</p>
+        <p class="text-xl text-gray-500 uppercase tactical-text">Tactical Digital Twin Viewers</p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <!-- Asset Grid -->
         <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            <!-- Asset 1: Koru -->
-            <div class="brutalist-card p-2">
-                <div id="v1" class="view-port"></div>
-                <div class="p-2 flex justify-between items-center text-[10px] tactical-text">
-                    <span>Koru.glb</span>
-                    <button onclick="loadLocalModel('v1', 'assets/koru.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">AUTO-LOAD</button>
-                </div>
-            </div>
-            <!-- Asset 2: Zyxar -->
-            <div class="brutalist-card p-2">
-                <div id="v2" class="view-port"></div>
-                <div class="p-2 flex justify-between items-center text-[10px] tactical-text">
-                    <span>Zyxar.glb</span>
-                    <button onclick="loadLocalModel('v2', 'assets/zyxar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">AUTO-LOAD</button>
-                </div>
-            </div>
-            <!-- Asset 3: Nyar -->
-            <div class="brutalist-card p-2">
-                <div id="v3" class="view-port"></div>
-                <div class="p-2 flex justify-between items-center text-[10px] tactical-text">
-                    <span>Nyar.glb</span>
-                    <button onclick="loadLocalModel('v3', 'assets/nyar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">AUTO-LOAD</button>
-                </div>
-            </div>
-            <!-- Asset 4: Rogar -->
-            <div class="brutalist-card p-2">
-                <div id="v4" class="view-port"></div>
-                <div class="p-2 flex justify-between items-center text-[10px] tactical-text">
-                    <span>Rogar.glb</span>
-                    <button onclick="loadLocalModel('v4', 'assets/rogar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">AUTO-LOAD</button>
-                </div>
-            </div>
-            <!-- Asset 5: Koru-HUD -->
-            <div class="brutalist-card p-2">
-                <div id="v5" class="view-port"></div>
-                <div class="p-2 flex justify-between items-center text-[10px] tactical-text">
-                    <span>Koru-HUD.glb</span>
-                    <button onclick="loadLocalModel('v5', 'assets/koru-hud.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">AUTO-LOAD</button>
-                </div>
-            </div>
-            <!-- Asset 6: Zyxar-HUD -->
-            <div class="brutalist-card p-2">
-                <div id="v6" class="view-port"></div>
-                <div class="p-2 flex justify-between items-center text-[10px] tactical-text">
-                    <span>Zyxar-HUD.glb</span>
-                    <button onclick="loadLocalModel('v6', 'assets/zyxar-hud.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">AUTO-LOAD</button>
-                </div>
-            </div>
+            <!-- Asset Slots -->
+            <div class="brutalist-card p-2"><div id="v1" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 1</span><button onclick="loadLocalModel('v1', 'assets/koru.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
+            <div class="brutalist-card p-2"><div id="v2" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 2</span><button onclick="loadLocalModel('v2', 'assets/zyxar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
+            <div class="brutalist-card p-2"><div id="v3" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 3</span><button onclick="loadLocalModel('v3', 'assets/nyar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
+            <div class="brutalist-card p-2"><div id="v4" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 4</span><button onclick="loadLocalModel('v4', 'assets/rogar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
+            <div class="brutalist-card p-2"><div id="v5" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 5</span><button onclick="loadLocalModel('v5', 'assets/koru-hud.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
+            <div class="brutalist-card p-2"><div id="v6" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 6</span><button onclick="loadLocalModel('v6', 'assets/zyxar-hud.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
         </div>
 
-        <!-- Sidebar -->
         <div class="lg:col-span-1 space-y-6">
             <div class="brutalist-card p-6">
                 <h2 class="text-xs uppercase font-bold mb-4 tactical-text text-gray-400">Mission Control</h2>
                 <textarea id="storyDisplay" class="w-full h-32 bg-transparent text-xs font-mono text-gray-300 p-2 mb-4 border border-gray-800 outline-none focus:border-white"></textarea>
-                <div class="flex gap-2">
-                    <button onclick="exportProject()" class="text-[10px] uppercase border px-2 py-1 flex-1">Export JSON</button>
-                    <input type="file" id="importInput" class="hidden" onchange="importProject(this)">
-                    <button onclick="document.getElementById('importInput').click()" class="text-[10px] uppercase border px-2 py-1 flex-1">Import JSON</button>
-                </div>
-            </div>
-
-            <div class="brutalist-card p-6">
-                <h2 class="text-xs uppercase font-bold mb-4 tactical-text text-gray-400">Cinematic Feed</h2>
-                <iframe id="mainVideo" class="w-full h-32 bg-black mb-4" src="https://www.youtube.com/embed/gbhHcqFjo8k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <audio id="mainAudio" controls class="w-full" src="assets/edensdntrk.mp3"></audio>
             </div>
         </div>
     </div>
@@ -114,11 +56,19 @@
             const container = document.getElementById(id);
             const scene = new THREE.Scene();
             
-            // Professional PBR Lighting Rig
-            const ambient = new THREE.HemisphereLight(0xffffff, 0x444444, 0.8);
+            // STUDIO LIGHTING RIG (Brighter & More Defined)
+            // Ambient: Base illumination so nothing is pure black
+            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+            
+            // Key Light: Primary light source
             const key = new THREE.DirectionalLight(0xffffff, 1.2);
             key.position.set(5, 5, 5);
-            scene.add(ambient, key);
+            scene.add(key);
+            
+            // Rim Light: Backlight to pop the silhouette
+            const rim = new THREE.DirectionalLight(0x4488ff, 0.6);
+            rim.position.set(-5, 0, -5);
+            scene.add(rim);
             
             const camera = new THREE.PerspectiveCamera(45, container.clientWidth/280, 0.1, 1000);
             camera.position.set(0, 0, 3);
@@ -137,35 +87,22 @@
         ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'].forEach(initViewer);
 
         function loadLocalModel(id, path) {
+            console.log("Loading:", path);
             loader.load(path, (gltf) => {
                 const { scene } = viewers[id];
-                while(scene.children.length > 2) scene.remove(scene.children[2]);
+                // Remove everything except lights (lights are children 0, 1, 2)
+                while(scene.children.length > 3) scene.remove(scene.children[3]);
                 scene.add(gltf.scene);
-            }, undefined, (err) => console.error("Asset not found at: " + path));
+            }, undefined, (err) => {
+                console.error("Path Error for:", path, err);
+                // Visual Debugger: If file fails, add a simple cube so we know the viewer works
+                const { scene } = viewers[id];
+                const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+                const mat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                const cube = new THREE.Mesh(geo, mat);
+                scene.add(cube);
+            });
         }
-
-        function exportProject() {
-            const data = {
-                story: document.getElementById('storyDisplay').value,
-                timestamp: new Date().toISOString()
-            };
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], {type: 'application/json'}));
-            a.download = 'primal_project.json';
-            a.click();
-        }
-
-        function importProject(input) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const data = JSON.parse(e.target.result);
-                document.getElementById('storyDisplay').value = data.story;
-            };
-            reader.readAsText(input.files[0]);
-        }
-
-        // Initialize story from file reference
-        document.getElementById('storyDisplay').value = "Earth is a memory. The Zytherons farm human data ghosts. Koru and his squad must choose between restoring a dead humanity or forging a new primal evolution.";
     </script>
 </body>
 </html>
