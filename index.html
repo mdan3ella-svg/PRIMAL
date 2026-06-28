@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&display=swap');
         body { background-color: #0d0d0d; color: #e5e5e5; font-family: 'Space Grotesk', sans-serif; }
         .tactical-border { border: 1px solid #404040; }
-        .viewer-box { width: 100%; height: 280px; background: #000; position: relative; }
+        .viewer-box { width: 100%; height: 280px; background: #ffffff; position: relative; } /* Light background for clean look */
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
     </style>
 </head>
@@ -29,12 +28,12 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Asset Viewers Grid -->
         <div class="md:col-span-3 grid grid-cols-2 lg:grid-cols-3 gap-4">
-            <div id="v1" class="viewer-box tactical-border" data-file="KORU.glb"></div>
-            <div id="v2" class="viewer-box tactical-border" data-file="ZYXAR.glb"></div>
-            <div id="v3" class="viewer-box tactical-border" data-file="NYAR.glb"></div>
-            <div id="v4" class="viewer-box tactical-border" data-file="ROGAR.glb"></div>
-            <div id="v5" class="viewer-box tactical-border" data-file="KORU-HUD.glb"></div>
-            <div id="v6" class="viewer-box tactical-border" data-file="ZYXAR-HUD.glb"></div>
+            <div id="v1" class="viewer-box tactical-border" data-file="KORU.GLB"></div>
+            <div id="v2" class="viewer-box tactical-border" data-file="ZYXAR.GLB"></div>
+            <div id="v3" class="viewer-box tactical-border" data-file="NYAR.GLB"></div>
+            <div id="v4" class="viewer-box tactical-border" data-file="ROGAR.GLB"></div>
+            <div id="v5" class="viewer-box tactical-border" data-file="KORU-HUD.GLB"></div>
+            <div id="v6" class="viewer-box tactical-border" data-file="ZYXAR-HUD.GLB"></div>
         </div>
 
         <!-- Media/Story Section -->
@@ -54,7 +53,7 @@
             <h3 class="text-xs uppercase mb-4 text-gray-400">Audio Orchestration</h3>
             <audio controls class="w-full mb-6 filter invert sepia" src="assets/EDENDSNTRK.mp3"></audio>
             <div class="text-[10px] text-gray-600 uppercase font-mono">
-                System Status: Active<br>Lighting: PBR Studio Standard<br>Path: /assets/
+                System Status: Active<br>Lighting: Global Whitewash PBR<br>Path: /assets/
             </div>
         </div>
     </div>
@@ -68,24 +67,42 @@
             const fileName = container.getAttribute('data-file');
             
             const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffffff); // White background
+            
             const camera = new THREE.PerspectiveCamera(40, container.clientWidth/280, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, 280);
+            renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // Studio Lighting Rig
-            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-            const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            keyLight.position.set(5, 5, 5);
-            scene.add(keyLight);
+            // GLOBAL WHITEWASH LIGHTING RIG
+            // Ambient base
+            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+            
+            // Hemisphere light for natural sky-fill (eliminates harsh bottom shadows)
+            const hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.8);
+            scene.add(hemi);
+
+            // 3-Point Light System for clean professional look
+            const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            frontLight.position.set(0, 0, 5);
+            scene.add(frontLight);
+
+            const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            topLight.position.set(0, 5, 0);
+            scene.add(topLight);
+            
+            const sideLight = new THREE.DirectionalLight(0xffffff, 0.3);
+            sideLight.position.set(5, 0, 0);
+            scene.add(sideLight);
 
             const loader = new THREE.GLTFLoader();
             loader.load(`assets/${fileName}`, (gltf) => {
                 scene.add(gltf.scene);
             }, undefined, () => {
-                // Placeholder geometry if load fails
+                // Placeholder
                 const geo = new THREE.BoxGeometry(1, 1, 1);
-                const mat = new THREE.MeshBasicMaterial({ color: 0x333333 });
+                const mat = new THREE.MeshBasicMaterial({ color: 0xcccccc });
                 scene.add(new THREE.Mesh(geo, mat));
             });
 
@@ -99,5 +116,3 @@
     </script>
 </body>
 </html>
-
-```
