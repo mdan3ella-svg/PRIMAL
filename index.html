@@ -1,108 +1,103 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project: PRIMAL | Tactical Digital Twin Deck</title>
+    <title>PROJECT: PRIMAL | Tactical Digital Twin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&display=swap');
-        body { background-color: #0d0d0d; color: #e5e5e5; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
-        .brutalist-card { border: 1px solid #333; background: #151515; }
-        .view-port { width: 100%; height: 280px; background: #050505; position: relative; }
-        .tactical-text { letter-spacing: 0.15em; text-transform: uppercase; }
+        body { background-color: #0d0d0d; color: #e5e5e5; font-family: 'Space Grotesk', sans-serif; }
+        .tactical-border { border: 1px solid #404040; }
+        .viewer-box { width: 100%; height: 280px; background: #000; position: relative; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <!-- SPLASH SCREEN -->
-    <div id="splash" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-pointer" onclick="this.style.opacity='0'; setTimeout(() => this.style.display='none', 800)">
-        <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-white">PROJECT: PRIMAL</h1>
-        <p class="text-gray-400 tactical-text mt-4 animate-pulse">Click to Initialize Command Deck</p>
-    </div>
-
-    <header class="mb-10 border-l-4 border-white pl-6">
-        <h1 class="text-5xl font-bold uppercase tracking-tighter text-white">Project: PRIMAL</h1>
-        <p class="text-xl text-gray-500 uppercase tactical-text">Tactical Digital Twin Viewers</p>
+    <header class="mb-8 flex justify-between items-end border-b border-gray-700 pb-4">
+        <div>
+            <h1 class="text-5xl font-bold uppercase tracking-widest text-white">Project: PRIMAL</h1>
+            <p class="text-sm uppercase tracking-[0.3em] text-gray-500">The Fight for Eden</p>
+        </div>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            <!-- Asset Slots -->
-            <div class="brutalist-card p-2"><div id="v1" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 1</span><button onclick="loadLocalModel('v1', 'assets/koru.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
-            <div class="brutalist-card p-2"><div id="v2" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 2</span><button onclick="loadLocalModel('v2', 'assets/zyxar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
-            <div class="brutalist-card p-2"><div id="v3" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 3</span><button onclick="loadLocalModel('v3', 'assets/nyar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
-            <div class="brutalist-card p-2"><div id="v4" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 4</span><button onclick="loadLocalModel('v4', 'assets/rogar.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
-            <div class="brutalist-card p-2"><div id="v5" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 5</span><button onclick="loadLocalModel('v5', 'assets/koru-hud.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
-            <div class="brutalist-card p-2"><div id="v6" class="view-port"></div><div class="p-2 flex justify-between items-center text-[10px] tactical-text"><span>Viewer 6</span><button onclick="loadLocalModel('v6', 'assets/zyxar-hud.glb')" class="border border-gray-600 px-2 py-1 hover:border-white">LOAD</button></div></div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Asset Viewers Grid -->
+        <div class="md:col-span-3 grid grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="v1" class="viewer-box tactical-border" data-file="KORU.glb"></div>
+            <div id="v2" class="viewer-box tactical-border" data-file="ZYXAR.glb"></div>
+            <div id="v3" class="viewer-box tactical-border" data-file="NYAR.glb"></div>
+            <div id="v4" class="viewer-box tactical-border" data-file="ROGAR.glb"></div>
+            <div id="v5" class="viewer-box tactical-border" data-file="KORU-HUD.glb"></div>
+            <div id="v6" class="viewer-box tactical-border" data-file="ZYXAR-HUD.glb"></div>
         </div>
 
-        <div class="lg:col-span-1 space-y-6">
-            <div class="brutalist-card p-6">
-                <h2 class="text-xs uppercase font-bold mb-4 tactical-text text-gray-400">Mission Control</h2>
-                <textarea id="storyDisplay" class="w-full h-32 bg-transparent text-xs font-mono text-gray-300 p-2 mb-4 border border-gray-800 outline-none focus:border-white"></textarea>
+        <!-- Media/Story Section -->
+        <div class="md:col-span-2 space-y-6">
+            <div class="glass p-6 tactical-border">
+                <h3 class="text-xs uppercase mb-4 text-gray-400">Cinematic Feed</h3>
+                <iframe class="w-full h-80" src="https://www.youtube.com/embed/gbhHcqFjo8k" allowfullscreen></iframe>
+            </div>
+            <div class="glass p-6 tactical-border">
+                <h3 class="text-xs uppercase mb-4 text-gray-400">Storyline Synopsis</h3>
+                <p id="storyDisplay" class="text-sm italic leading-relaxed text-gray-300"></p>
+            </div>
+        </div>
+
+        <!-- Audio/Data Section -->
+        <div class="glass p-6 tactical-border">
+            <h3 class="text-xs uppercase mb-4 text-gray-400">Audio Orchestration</h3>
+            <audio controls class="w-full mb-6 filter invert sepia" src="assets/EDENDSNTRK.mp3"></audio>
+            <div class="text-[10px] text-gray-600 uppercase font-mono">
+                System Status: Active<br>Lighting: PBR Studio Standard<br>Path: /assets/
             </div>
         </div>
     </div>
 
     <script>
-        const viewers = {};
-        const loader = new THREE.GLTFLoader();
+        const story = "Earth is a memory. The Zytherons farm human data ghosts. Koru and his squad must choose between restoring a dead humanity or forging a new primal evolution.";
+        document.getElementById('storyDisplay').innerText = story;
 
         function initViewer(id) {
             const container = document.getElementById(id);
+            const fileName = container.getAttribute('data-file');
+            
             const scene = new THREE.Scene();
-            
-            // STUDIO LIGHTING RIG (Brighter & More Defined)
-            // Ambient: Base illumination so nothing is pure black
-            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-            
-            // Key Light: Primary light source
-            const key = new THREE.DirectionalLight(0xffffff, 1.2);
-            key.position.set(5, 5, 5);
-            scene.add(key);
-            
-            // Rim Light: Backlight to pop the silhouette
-            const rim = new THREE.DirectionalLight(0x4488ff, 0.6);
-            rim.position.set(-5, 0, -5);
-            scene.add(rim);
-            
-            const camera = new THREE.PerspectiveCamera(45, container.clientWidth/280, 0.1, 1000);
-            camera.position.set(0, 0, 3);
+            const camera = new THREE.PerspectiveCamera(40, container.clientWidth/280, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, 280);
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
             container.appendChild(renderer.domElement);
-            
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            viewers[id] = { scene, camera, renderer, controls };
-            
-            function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+
+            // Studio Lighting Rig
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            keyLight.position.set(5, 5, 5);
+            scene.add(keyLight);
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(`assets/${fileName}`, (gltf) => {
+                scene.add(gltf.scene);
+            }, undefined, () => {
+                // Placeholder geometry if load fails
+                const geo = new THREE.BoxGeometry(1, 1, 1);
+                const mat = new THREE.MeshBasicMaterial({ color: 0x333333 });
+                scene.add(new THREE.Mesh(geo, mat));
+            });
+
+            camera.position.z = 4;
+            new THREE.OrbitControls(camera, renderer.domElement);
+            function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }
             animate();
         }
 
         ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'].forEach(initViewer);
-
-        function loadLocalModel(id, path) {
-            console.log("Loading:", path);
-            loader.load(path, (gltf) => {
-                const { scene } = viewers[id];
-                // Remove everything except lights (lights are children 0, 1, 2)
-                while(scene.children.length > 3) scene.remove(scene.children[3]);
-                scene.add(gltf.scene);
-            }, undefined, (err) => {
-                console.error("Path Error for:", path, err);
-                // Visual Debugger: If file fails, add a simple cube so we know the viewer works
-                const { scene } = viewers[id];
-                const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-                const mat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-                const cube = new THREE.Mesh(geo, mat);
-                scene.add(cube);
-            });
-        }
     </script>
 </body>
 </html>
+
+```
