@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimalONE | The Fight For Eden - Asset Dossier</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e7eb; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .splash-enter { transition: opacity 0.8s ease-out; }
+        model-viewer { width: 100%; height: 300px; background-color: transparent; }
     </style>
 </head>
 <body class="min-h-screen text-gray-200">
@@ -25,62 +27,64 @@
         </div>
     </div>
 
-    <main id="dossier-content" class="max-w-5xl mx-auto p-4 md:p-8 opacity-0 transition-opacity duration-1000">
+    <main id="dossier-content" class="max-w-6xl mx-auto p-4 md:p-8 opacity-0 transition-opacity duration-1000">
         
-        <header class="mb-12 border-b border-white/10 pb-8">
+        <header class="mb-12 border-b border-white/10 pb-8 text-center">
             <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">PRIMAL<span class="text-white">ONE</span></h1>
             <p class="text-xl mt-2 text-gray-400 italic">The Fight For Eden | System Dossier</p>
         </header>
 
-        <section class="grid md:grid-cols-2 gap-6">
+        <div class="grid lg:grid-cols-2 gap-8">
             
-            <!-- Core Narrative -->
-            <div class="glass p-6 rounded-xl shadow-lg">
-                <h2 class="text-lg font-semibold text-blue-300 mb-4 flex items-center">
-                    <span class="mr-2">📁</span> CORE NARRATIVE
-                </h2>
-                <p class="text-sm text-gray-300 leading-relaxed">
-                    Eden: The battleground. Koru and Zyxar factions represent the divergent paths of survival. This dossier tracks the weaponized assets and HUD systems deployed in the field.
-                </p>
-            </div>
-
-            <!-- Project Status -->
-            <div class="glass p-6 rounded-xl shadow-lg">
-                <h2 class="text-lg font-semibold text-purple-300 mb-4 flex items-center">
-                    <span class="mr-2">⚙️</span> DEPLOYMENT STATUS
-                </h2>
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between"><span>Phase:</span> <span class="text-white font-bold">Production Ready</span></div>
-                    <div class="flex justify-between"><span>Integrity:</span> <span class="text-green-400 font-bold">100% Validated</span></div>
-                    <div class="flex justify-between"><span>HUD Version:</span> <span class="text-white font-bold">v4.2.0</span></div>
+            <!-- KORU SECTION -->
+            <section class="glass p-6 rounded-xl">
+                <h2 class="text-2xl font-bold text-blue-400 mb-4 border-b border-blue-400/30 pb-2">KORU: PRIMAL GUARDIAN</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <model-viewer src="KORU.glb" alt="Koru Model" auto-rotate camera-controls shadow-intensity="1" class="rounded-lg bg-black/20"></model-viewer>
+                    <model-viewer src="KORU-HUD.glb" alt="Koru HUD" auto-rotate camera-controls shadow-intensity="1" class="rounded-lg bg-black/20"></model-viewer>
                 </div>
-            </div>
-
-            <div class="md:col-span-2 glass p-6 rounded-xl shadow-lg">
-                <h2 class="text-lg font-semibold text-gray-100 mb-4">ASSET MANIFEST</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-blue-500/50 transition cursor-default">
-                        <h3 class="text-blue-400 font-bold">Koru Character Model</h3>
-                        <p class="text-xs text-gray-500 mt-1">Format: .fbx | Status: Primordial Force</p>
+                <div class="mt-6 space-y-4 text-sm text-gray-300">
+                    <p><span class="text-blue-300 font-bold">Synopsis:</span> The biological apex of Eden. Koru utilizes raw primal energy to defend the remaining natural sectors against synthetic encroachment.</p>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs uppercase text-gray-500"><span>Strength</span><span>95%</span></div>
+                        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[95%]"></div></div>
+                        <div class="flex justify-between text-xs uppercase text-gray-500"><span>Agility</span><span>70%</span></div>
+                        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[70%]"></div></div>
                     </div>
-                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-blue-500/50 transition cursor-default">
-                        <h3 class="text-blue-400 font-bold">Koru-HUD Interface</h3>
-                        <p class="text-xs text-gray-500 mt-1">Format: .svg | Status: Active</p>
-                    </div>
-                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-purple-500/50 transition cursor-default">
-                        <h3 class="text-purple-400 font-bold">Zyxar Character Model</h3>
-                        <p class="text-xs text-gray-500 mt-1">Format: .fbx | Status: Tech-Evolutionist</p>
-                    </div>
-                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-purple-500/50 transition cursor-default">
-                        <h3 class="text-purple-400 font-bold">Zyxar-HUD Interface</h3>
-                        <p class="text-xs text-gray-500 mt-1">Format: .svg | Status: Active</p>
-                    </div>
+                    <ul class="text-xs list-disc pl-4 space-y-1">
+                        <li>Asset: KORU.glb (Primary Mesh)</li>
+                        <li>UI: KORU-HUD.glb (Scalable HUD)</li>
+                        <li>Status: Combat Optimized</li>
+                    </ul>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <footer class="mt-12 text-center text-gray-600 text-xs uppercase tracking-widest">
-            PrimalONE Internal Systems &copy; 2026 | All Rights Reserved
+            <!-- ZYXAR SECTION -->
+            <section class="glass p-6 rounded-xl">
+                <h2 class="text-2xl font-bold text-purple-400 mb-4 border-b border-purple-400/30 pb-2">ZYXAR: TECH-EVOLUTIONIST</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <model-viewer src="ZYXAR.glb" alt="Zyxar Model" auto-rotate camera-controls shadow-intensity="1" class="rounded-lg bg-black/20"></model-viewer>
+                    <model-viewer src="ZYXAR-HUD.glb" alt="Zyxar HUD" auto-rotate camera-controls shadow-intensity="1" class="rounded-lg bg-black/20"></model-viewer>
+                </div>
+                <div class="mt-6 space-y-4 text-sm text-gray-300">
+                    <p><span class="text-purple-300 font-bold">Synopsis:</span> The architect of synthetic integration. Zyxar seeks to evolve Eden through technological superiority, merging machine and consciousness.</p>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs uppercase text-gray-500"><span>Intellect</span><span>95%</span></div>
+                        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden"><div class="bg-purple-500 h-full w-[95%]"></div></div>
+                        <div class="flex justify-between text-xs uppercase text-gray-500"><span>Tech-Sync</span><span>90%</span></div>
+                        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden"><div class="bg-purple-500 h-full w-[90%]"></div></div>
+                    </div>
+                    <ul class="text-xs list-disc pl-4 space-y-1">
+                        <li>Asset: ZYXAR.glb (Primary Mesh)</li>
+                        <li>UI: ZYXAR-HUD.glb (Scalable HUD)</li>
+                        <li>Status: System Integrated</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-600 text-xs uppercase tracking-widest border-t border-white/10 pt-8">
+            PrimalONE Internal Systems &copy; 2026 | Authorized Personnel Only
         </footer>
     </main>
 
@@ -96,7 +100,7 @@
             }, 800);
         }
 
-        console.log("PrimalONE System: All Assets Loaded Successfully.");
+        console.log("PrimalONE System: All Assets Initialized.");
     </script>
 </body>
 </html>
