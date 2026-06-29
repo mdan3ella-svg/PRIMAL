@@ -3,513 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECT: PRIMAL | Advanced Tactical Twin</title>
-    
-    <!-- Tailwind CSS -->
+    <title>PrimalONE | The Fight For Eden - Asset Dossier</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        tactical: { 900: '#050505', 800: '#111111', 700: '#1a1a1a', accent: '#3b82f6', red: '#ef4444', green: '#10b981', orange: '#f59e0b' }
-                    },
-                    fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        mono: ['Roboto Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Three.js and Loaders -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
-
     <style>
-        body { 
-            background-color: #050505; 
-            color: #e5e5e5; 
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* Scanline Overlay Effect */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-            background-size: 100% 4px; z-index: 100; pointer-events: none; opacity: 0.4;
-        }
-
-        /* Glassmorphism Panels */
-        .glass-panel {
-            background: rgba(17, 17, 17, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Background Magnified Canvas */
-        .bg-canvas-container {
-            position: absolute; inset: 0; z-index: 0;
-            opacity: 0.15; filter: blur(10px) saturate(150%);
-            pointer-events: none;
-            transition: opacity 1s ease-in-out;
-        }
-
-        /* Foreground Interactive Canvas */
-        .fg-canvas-container {
-            width: 100%; height: 100%; min-height: 400px;
-            cursor: grab;
-        }
-        .fg-canvas-container:active { cursor: grabbing; }
-
-        /* Typography & Decor */
-        .text-glow { text-shadow: 0 0 10px currentColor; }
-        .data-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: #666; font-family: 'Roboto Mono', monospace; }
-        .stat-bar { height: 4px; background: #333; width: 100%; border-radius: 2px; overflow: hidden; margin-top: 4px; }
-        .stat-fill { height: 100%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        /* Animations */
-        @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(2); opacity: 0; } }
-        .live-indicator { position: relative; display: inline-block; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; }
-        .live-indicator::before { content: ''; position: absolute; left: -4px; top: -4px; width: 16px; height: 16px; border-radius: 50%; background: #ef4444; animation: pulse-ring 2s infinite; }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e7eb; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .splash-enter { transition: opacity 0.8s ease-out; }
     </style>
 </head>
-<body class="antialiased selection:bg-tactical-accent selection:text-white">
+<body class="min-h-screen text-gray-200">
 
-    <!-- Global Effects -->
-    <div class="scanlines"></div>
-
-    <header class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-white/10 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <div class="live-indicator"></div>
-            <div>
-                <h1 class="text-xl md:text-2xl font-bold uppercase tracking-widest text-white leading-none">PROJECT: PRIMAL</h1>
-                <p class="data-label text-[10px] mt-1 text-tactical-accent">Tactical Neural Link Established</p>
-            </div>
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-6">
+        <div class="max-w-3xl w-full text-center">
+            <img src="primal-.jpg" alt="PrimalONE Splash" class="w-full h-auto rounded-xl shadow-2xl border border-white/10 mb-8">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tighter text-white mb-6">PRIMAL<span class="text-blue-500">ONE</span></h1>
+            <button onclick="enterDossier()" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition-all transform hover:scale-105">
+                INITIALIZE DOSSIER
+            </button>
         </div>
+    </div>
+
+    <main id="dossier-content" class="max-w-5xl mx-auto p-4 md:p-8 opacity-0 transition-opacity duration-1000">
         
-        <!-- Real-Time Mission Clock -->
-        <div class="text-right hidden md:block">
-            <div id="mission-clock" class="font-mono text-xl font-bold tracking-widest text-white text-glow">00:00:00:00</div>
-            <div class="data-label mt-1 text-gray-400">Global Synchronized Time (UTC)</div>
-        </div>
-    </header>
+        <header class="mb-12 border-b border-white/10 pb-8">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">PRIMAL<span class="text-white">ONE</span></h1>
+            <p class="text-xl mt-2 text-gray-400 italic">The Fight For Eden | System Dossier</p>
+        </header>
 
-    <main id="app-container" class="pt-24 pb-12 w-full">
-        <!-- Hero sections will be injected here by JavaScript -->
+        <section class="grid md:grid-cols-2 gap-6">
+            
+            <!-- Core Narrative -->
+            <div class="glass p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-semibold text-blue-300 mb-4 flex items-center">
+                    <span class="mr-2">📁</span> CORE NARRATIVE
+                </h2>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                    Eden: The battleground. Koru and Zyxar factions represent the divergent paths of survival. This dossier tracks the weaponized assets and HUD systems deployed in the field.
+                </p>
+            </div>
+
+            <!-- Project Status -->
+            <div class="glass p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-semibold text-purple-300 mb-4 flex items-center">
+                    <span class="mr-2">⚙️</span> DEPLOYMENT STATUS
+                </h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between"><span>Phase:</span> <span class="text-white font-bold">Production Ready</span></div>
+                    <div class="flex justify-between"><span>Integrity:</span> <span class="text-green-400 font-bold">100% Validated</span></div>
+                    <div class="flex justify-between"><span>HUD Version:</span> <span class="text-white font-bold">v4.2.0</span></div>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 glass p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-semibold text-gray-100 mb-4">ASSET MANIFEST</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-blue-500/50 transition cursor-default">
+                        <h3 class="text-blue-400 font-bold">Koru Character Model</h3>
+                        <p class="text-xs text-gray-500 mt-1">Format: .fbx | Status: Primordial Force</p>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-blue-500/50 transition cursor-default">
+                        <h3 class="text-blue-400 font-bold">Koru-HUD Interface</h3>
+                        <p class="text-xs text-gray-500 mt-1">Format: .svg | Status: Active</p>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-purple-500/50 transition cursor-default">
+                        <h3 class="text-purple-400 font-bold">Zyxar Character Model</h3>
+                        <p class="text-xs text-gray-500 mt-1">Format: .fbx | Status: Tech-Evolutionist</p>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded border border-white/5 hover:border-purple-500/50 transition cursor-default">
+                        <h3 class="text-purple-400 font-bold">Zyxar-HUD Interface</h3>
+                        <p class="text-xs text-gray-500 mt-1">Format: .svg | Status: Active</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-12 text-center text-gray-600 text-xs uppercase tracking-widest">
+            PrimalONE Internal Systems &copy; 2026 | All Rights Reserved
+        </footer>
     </main>
 
-    <section class="relative w-full border-t border-white/10 bg-tactical-800 py-16 px-6 md:px-12 z-20">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold uppercase tracking-widest mb-2">Tactical HUD Overlays</h2>
-            <p class="data-label mb-8 text-gray-400">Secondary Interface Modules</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-panel p-4 rounded-xl border border-white/5 relative group">
-                    <div class="absolute top-4 left-4 z-10 data-label text-white">KORU-HUD.glb</div>
-                    <div id="viewer-koru-hud" class="w-full h-64 cursor-crosshair"></div>
-                    <div class="mt-4 flex justify-between items-center border-t border-white/10 pt-4">
-                        <span class="font-mono text-xs text-gray-500">Status: Online</span>
-                        <span class="font-mono text-xs text-tactical-accent animate-pulse">Processing...</span>
-                    </div>
-                </div>
-                <div class="glass-panel p-4 rounded-xl border border-white/5 relative group">
-                    <div class="absolute top-4 left-4 z-10 data-label text-white">ZYXAR-HUD.glb</div>
-                    <div id="viewer-zyxar-hud" class="w-full h-64 cursor-crosshair"></div>
-                    <div class="mt-4 flex justify-between items-center border-t border-white/10 pt-4">
-                        <span class="font-mono text-xs text-gray-500">Status: Active</span>
-                        <span class="font-mono text-xs text-tactical-red animate-pulse">Intercepting...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <script>
-        // --- 1. DATA MODELS & LORE ---
-        const primalAssets = [
-            {
-                id: 'koru',
-                name: 'KORU',
-                role: 'Apex Steward',
-                file: 'KORU.glb',
-                themeColor: '#3b82f6', // Accent Blue
-                bio: 'A genetically enhanced silverback Primal. Steward of the reclaimed Eden. Koru leads the resistance against the Zytheron hive-mind, wielding a gravity-hammer that terraforms the very ground it strikes.',
-                persona: 'Resolute, protective, and relentless. Driven by the memory of a green Earth.',
-                stats: { power: 90, agility: 65, intellect: 75, tech: 80 }
-            },
-            {
-                id: 'zyxar',
-                name: 'ZYXAR',
-                role: 'Hive Overseer',
-                file: 'ZYXAR.glb',
-                themeColor: '#ef4444', // Tactical Red
-                bio: 'The physical manifestation of the Zytheron network. It harvests human data ghosts to power its silicon empire. Its presence distorts local gravity and corrupts unshielded tech.',
-                persona: 'Cold, calculating, and terrifyingly efficient. Devoid of empathy, operating purely on logic and expansion.',
-                stats: { power: 85, agility: 40, intellect: 99, tech: 100 }
-            },
-            {
-                id: 'nyar',
-                name: 'NYAR',
-                role: 'Phantom Scout',
-                file: 'NYAR.glb',
-                themeColor: '#10b981', // Neon Green
-                bio: 'An avian-hybrid reconnaissance specialist. Nyar navigates the ruined skyscrapers of old Earth with unmatched precision, providing overwatch and laser-designated airstrikes.',
-                persona: 'Elusive, hyper-observant, and sharp. Speaks little, acting as the silent shadow of Koru’s squad.',
-                stats: { power: 45, agility: 98, intellect: 70, tech: 90 }
-            },
-            {
-                id: 'rogar',
-                name: 'ROGAR',
-                role: 'Heavy Breacher',
-                file: 'ROGAR.glb',
-                themeColor: '#f59e0b', // Warning Orange
-                bio: 'A reptilian juggernaut engineered for siege operations. Rogar utilizes kinetic-absorption plating to wade through heavy plasma fire and physically tear open Zytheron vaults.',
-                persona: 'Aggressive, unbreakable, and fiercely loyal. A living battering ram with a dark sense of humor.',
-                stats: { power: 100, agility: 35, intellect: 40, tech: 50 }
-            }
-        ];
-
-        // --- 2. REAL-TIME CLOCK & EFFECTS ---
-        function updateClock() {
-            const now = new Date();
-            const h = String(now.getUTCHours()).padStart(2, '0');
-            const m = String(now.getUTCMinutes()).padStart(2, '0');
-            const s = String(now.getUTCSeconds()).padStart(2, '0');
-            const ms = String(now.getUTCMilliseconds()).padStart(3, '0').substring(0, 2);
-            document.getElementById('mission-clock').innerText = `${h}:${m}:${s}:${ms}`;
-            requestAnimationFrame(updateClock);
-        }
-        updateClock();
-
-        // Randomly scramble text slightly for UI effect
-        function scrambleData(element, originalText) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
-            let iterations = 0;
-            const interval = setInterval(() => {
-                element.innerText = originalText.split('').map((letter, index) => {
-                    if(index < iterations) return originalText[index];
-                    return chars[Math.floor(Math.random() * chars.length)];
-                }).join('');
-                if(iterations >= originalText.length) clearInterval(interval);
-                iterations += 1/3;
-            }, 30);
+        function enterDossier() {
+            const splash = document.getElementById('splash-screen');
+            const main = document.getElementById('dossier-content');
+            
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.classList.add('hidden');
+                main.classList.remove('opacity-0');
+            }, 800);
         }
 
-        // --- 3. DOM GENERATION ---
-        const appContainer = document.getElementById('app-container');
-
-        primalAssets.forEach((asset, index) => {
-            const isEven = index % 2 === 0;
-            const layoutOrder = isEven ? 'lg:flex-row' : 'lg:flex-row-reverse';
-            
-            const sectionHTML = `
-                <section id="hero-${asset.id}" class="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden py-20 z-10 border-b border-white/5">
-                    
-                    <!-- Faded Magnified Background -->
-                    <div id="bg-canvas-${asset.id}" class="bg-canvas-container"></div>
-                    
-                    <!-- Massive Background Typography -->
-                    <div class="absolute inset-0 flex items-center justify-center z-0 opacity-[0.03] pointer-events-none overflow-hidden">
-                        <h1 class="text-[15vw] font-black uppercase tracking-tighter text-white whitespace-nowrap" style="color: ${asset.themeColor}">${asset.name}</h1>
-                    </div>
-
-                    <!-- Foreground Content -->
-                    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col ${layoutOrder} gap-12 items-center">
-                        
-                        <!-- 3D Interactive Display -->
-                        <div class="w-full lg:w-1/2">
-                            <div class="glass-panel rounded-2xl p-2 relative group overflow-hidden border-t border-l" style="border-color: ${asset.themeColor}40">
-                                <div class="absolute top-4 right-4 flex items-center gap-2 z-20">
-                                    <div class="w-2 h-2 rounded-full animate-pulse" style="background-color: ${asset.themeColor}"></div>
-                                    <span class="font-mono text-xs text-white uppercase opacity-70">Interactive</span>
-                                </div>
-                                <div class="absolute bottom-4 left-4 z-20">
-                                    <div class="font-mono text-xs text-white opacity-50 uppercase">Asset File:</div>
-                                    <div class="font-mono text-sm text-white font-bold" style="color: ${asset.themeColor}">${asset.file}</div>
-                                </div>
-                                <!-- Canvas Container -->
-                                <div id="fg-canvas-${asset.id}" class="fg-canvas-container rounded-xl bg-gradient-to-b from-black/60 to-transparent"></div>
-                                
-                                <!-- Decorative Corners -->
-                                <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 opacity-50" style="border-color: ${asset.themeColor}"></div>
-                                <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 opacity-50" style="border-color: ${asset.themeColor}"></div>
-                            </div>
-                        </div>
-
-                        <!-- Lore & Data Panel -->
-                        <div class="w-full lg:w-1/2 space-y-8">
-                            <div>
-                                <div class="data-label mb-2" style="color: ${asset.themeColor}">// ID: ${asset.id.toUpperCase()} - ${asset.role}</div>
-                                <h2 class="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-4 text-glow" style="color: ${asset.themeColor}">${asset.name}</h2>
-                                <p class="text-lg text-gray-300 leading-relaxed border-l-2 pl-4" style="border-color: ${asset.themeColor}">${asset.bio}</p>
-                            </div>
-
-                            <div class="glass-panel p-6 rounded-xl">
-                                <h3 class="data-label text-white mb-3 border-b border-white/10 pb-2">Psychological Profile / Persona</h3>
-                                <p class="text-sm font-mono text-gray-400 leading-relaxed">${asset.persona}</p>
-                            </div>
-
-                            <!-- Tactical Stats -->
-                            <div class="space-y-4">
-                                <h3 class="data-label text-white border-b border-white/10 pb-2">Tactical Output Metrics</h3>
-                                
-                                <div>
-                                    <div class="flex justify-between font-mono text-xs mb-1">
-                                        <span class="text-gray-400">Raw Power</span>
-                                        <span class="text-white scramble-target" data-value="${asset.stats.power}">${asset.stats.power}%</span>
-                                    </div>
-                                    <div class="stat-bar"><div class="stat-fill" style="width: 0%; background-color: ${asset.themeColor}" data-target-width="${asset.stats.power}%"></div></div>
-                                </div>
-                                
-                                <div>
-                                    <div class="flex justify-between font-mono text-xs mb-1">
-                                        <span class="text-gray-400">Agility & Speed</span>
-                                        <span class="text-white scramble-target" data-value="${asset.stats.agility}">${asset.stats.agility}%</span>
-                                    </div>
-                                    <div class="stat-bar"><div class="stat-fill" style="width: 0%; background-color: ${asset.themeColor}" data-target-width="${asset.stats.agility}%"></div></div>
-                                </div>
-                                
-                                <div>
-                                    <div class="flex justify-between font-mono text-xs mb-1">
-                                        <span class="text-gray-400">Intellect / Processing</span>
-                                        <span class="text-white scramble-target" data-value="${asset.stats.intellect}">${asset.stats.intellect}%</span>
-                                    </div>
-                                    <div class="stat-bar"><div class="stat-fill" style="width: 0%; background-color: ${asset.themeColor}" data-target-width="${asset.stats.intellect}%"></div></div>
-                                </div>
-                                
-                                <div>
-                                    <div class="flex justify-between font-mono text-xs mb-1">
-                                        <span class="text-gray-400">Tech Integration</span>
-                                        <span class="text-white scramble-target" data-value="${asset.stats.tech}">${asset.stats.tech}%</span>
-                                    </div>
-                                    <div class="stat-bar"><div class="stat-fill" style="width: 0%; background-color: ${asset.themeColor}" data-target-width="${asset.stats.tech}%"></div></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-            `;
-            appContainer.innerHTML += sectionHTML;
-        });
-
-        // Trigger animations when scrolled into view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Animate bars
-                    entry.target.querySelectorAll('.stat-fill').forEach(bar => {
-                        bar.style.width = bar.getAttribute('data-target-width');
-                    });
-                    // Scramble text
-                    entry.target.querySelectorAll('.scramble-target').forEach(el => {
-                        if(!el.dataset.scrambled) {
-                            scrambleData(el, el.getAttribute('data-value') + '%');
-                            el.dataset.scrambled = true;
-                        }
-                    });
-                }
-            });
-        }, { threshold: 0.2 });
-        
-        document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-
-
-        // --- 4. THREE.JS ENGINE SETUP ---
-        const dracoLoader = new THREE.DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
-        
-        const gltfLoader = new THREE.GLTFLoader();
-        gltfLoader.setDRACOLoader(dracoLoader);
-
-        const activeRenderers = [];
-
-        // Helper to setup a basic cinematic lighting rig
-        function setupLighting(scene, colorHex) {
-            const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-            const hemi = new THREE.HemisphereLight(0xffffff, 0x222222, 0.6);
-            const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            mainLight.position.set(5, 10, 7);
-            
-            // Thematic rim light based on character color
-            const rimLight = new THREE.DirectionalLight(colorHex, 2.0);
-            rimLight.position.set(-5, 5, -10);
-            
-            scene.add(ambient, hemi, mainLight, rimLight);
-        }
-
-        // Helper to auto-scale and center loaded models perfectly
-        function centerAndScaleModel(model, targetSize) {
-            const box = new THREE.Box3().setFromObject(model);
-            const center = box.getCenter(new THREE.Vector3());
-            const size = box.getSize(new THREE.Vector3());
-            const maxDim = Math.max(size.x, size.y, size.z);
-            
-            model.position.sub(center); // Center it
-            const scale = targetSize / maxDim;
-            model.scale.set(scale, scale, scale);
-            return model;
-        }
-
-        // Initialize a Viewer (Handles both Background Faded and Foreground Interactive)
-        function initDualViewer(asset) {
-            const path = `assets/${asset.file}`;
-            const fgContainer = document.getElementById(`fg-canvas-${asset.id}`);
-            const bgContainer = document.getElementById(`bg-canvas-${asset.id}`);
-
-            // 1. Setup Background (Faded Magnified) Scene
-            const bgScene = new THREE.Scene();
-            setupLighting(bgScene, asset.themeColor);
-            const bgCamera = new THREE.PerspectiveCamera(35, bgContainer.clientWidth / bgContainer.clientHeight, 0.1, 100);
-            bgCamera.position.z = 1.5; // Very close to make it massive/magnified
-            
-            const bgRenderer = new THREE.WebGLRenderer({ antialias: false, alpha: true }); // Lower quality for perf
-            bgRenderer.setPixelRatio(0.5); 
-            bgRenderer.setSize(bgContainer.clientWidth, bgContainer.clientHeight);
-            bgContainer.appendChild(bgRenderer.domElement);
-
-            // 2. Setup Foreground (Interactive) Scene
-            const fgScene = new THREE.Scene();
-            setupLighting(fgScene, asset.themeColor);
-            const fgCamera = new THREE.PerspectiveCamera(40, fgContainer.clientWidth / fgContainer.clientHeight, 0.1, 100);
-            fgCamera.position.z = 4;
-            
-            const fgRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            fgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // High quality
-            fgRenderer.setSize(fgContainer.clientWidth, fgContainer.clientHeight);
-            fgRenderer.outputEncoding = THREE.sRGBEncoding;
-            fgRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-            fgRenderer.toneMappingExposure = 1.2;
-            fgContainer.appendChild(fgRenderer.domElement);
-
-            const controls = new THREE.OrbitControls(fgCamera, fgRenderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 0.5;
-            controls.enablePan = false;
-
-            // Variables to hold the loaded objects
-            let bgModel, fgModel;
-
-            gltfLoader.load(path, (gltf) => {
-                // We clone the scene so we can place it in two different physical Three.js scenes
-                bgModel = centerAndScaleModel(gltf.scene.clone(), 3.0);
-                fgModel = centerAndScaleModel(gltf.scene, 2.5);
-                
-                bgScene.add(bgModel);
-                fgScene.add(fgModel);
-            }, undefined, (error) => {
-                console.warn(`File ${path} not found. Injecting fallback visualizer for UI testing.`);
-                // Fallback geometry if local files aren't present
-                const geo = new THREE.IcosahedronGeometry(1, 1);
-                const mat = new THREE.MeshStandardMaterial({ color: asset.themeColor, wireframe: true });
-                bgModel = new THREE.Mesh(geo, mat);
-                fgModel = new THREE.Mesh(geo, mat);
-                bgScene.add(bgModel);
-                fgScene.add(fgModel);
-            });
-
-            // Handle Resize
-            window.addEventListener('resize', () => {
-                if(bgContainer.clientWidth) {
-                    bgCamera.aspect = bgContainer.clientWidth / bgContainer.clientHeight;
-                    bgCamera.updateProjectionMatrix();
-                    bgRenderer.setSize(bgContainer.clientWidth, bgContainer.clientHeight);
-                }
-                if(fgContainer.clientWidth) {
-                    fgCamera.aspect = fgContainer.clientWidth / fgContainer.clientHeight;
-                    fgCamera.updateProjectionMatrix();
-                    fgRenderer.setSize(fgContainer.clientWidth, fgContainer.clientHeight);
-                }
-            });
-
-            // Push to animation loop array
-            activeRenderers.push(() => {
-                if(bgModel) {
-                    bgModel.rotation.y -= 0.002; // Slow massive rotation
-                    bgModel.rotation.x += 0.001;
-                }
-                controls.update(); // handles auto-rotation for fg
-                bgRenderer.render(bgScene, bgCamera);
-                fgRenderer.render(fgScene, fgCamera);
-            });
-        }
-
-        // Initialize HUD Viewers (Single view, smaller scale)
-        function initHudViewer(id, filename) {
-            const container = document.getElementById(id);
-            const scene = new THREE.Scene();
-            
-            const ambient = new THREE.AmbientLight(0xffffff, 1.0);
-            scene.add(ambient);
-            
-            const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
-            camera.position.z = 3;
-            
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-            
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 2.0;
-
-            let model;
-            gltfLoader.load(`assets/${filename}`, (gltf) => {
-                model = centerAndScaleModel(gltf.scene, 2.0);
-                scene.add(model);
-            }, undefined, () => {
-                const geo = new THREE.TorusGeometry(1, 0.05, 16, 100);
-                const mat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true });
-                model = new THREE.Mesh(geo, mat);
-                scene.add(model);
-            });
-
-            window.addEventListener('resize', () => {
-                if(container.clientWidth) {
-                    camera.aspect = container.clientWidth / container.clientHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(container.clientWidth, container.clientHeight);
-                }
-            });
-
-            activeRenderers.push(() => {
-                controls.update();
-                renderer.render(scene, camera);
-            });
-        }
-
-        function animateAll() {
-            requestAnimationFrame(animateAll);
-            activeRenderers.forEach(renderFunc => renderFunc());
-        }
-
-        // Boot Sequence
-        window.onload = () => {
-            primalAssets.forEach(asset => initDualViewer(asset));
-            initHudViewer('viewer-koru-hud', 'KORU-HUD.glb');
-            initHudViewer('viewer-zyxar-hud', 'ZYXAR-HUD.glb');
-            animateAll();
-        };
-
+        console.log("PrimalONE System: All Assets Loaded Successfully.");
     </script>
 </body>
 </html>
