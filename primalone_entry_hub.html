@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimalONE | System Initialization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            margin: 0;
+            overflow: hidden; /* Prevents scrollbars during absolute positioning */
+        }
+        
+        h1, h2, .orbitron { 
+            font-family: 'Orbitron', sans-serif; 
+        }
+        
+        /* High-end glassmorphism for the menu */
+        .glass-panel { 
+            background: rgba(10, 10, 15, 0.45); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Subtle scanline overlay for atmospheric tech effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Glitch hover effect for buttons */
+        .hover-glitch:hover {
+            animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            color: #00f0ff;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+        }
+        
+        .fade-out { opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; }
+        .fade-in { opacity: 1; visibility: visible; transition: opacity 0.8s ease 0.2s, visibility 0.8s ease 0.2s; }
+    </style>
+</head>
+<body class="text-gray-200 antialiased h-screen w-screen relative selection:bg-cyan-500 selection:text-white">
+
+    <!-- Background Image Container -->
+    <!-- Ensures the primalONE.jpg covers the viewport completely while maintaining aspect ratio -->
+    <div class="fixed inset-0 z-0">
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105" 
+             id="bg-image"
+             style="background-image: url('primalONE.jpg');">
+        </div>
+        <!-- Gradient overlay to ensure text/UI readability regardless of image brightness -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/60 z-1"></div>
+    </div>
+
+    <!-- Scanline Effect -->
+    <div class="scanlines"></div>
+
+    <!-- STATE 1: INITIALIZATION / ENTER SCREEN -->
+    <!-- Positioned absolutely. Adjust top/left classes if the text in your wallpaper is off-center. -->
+    <div id="enter-state" class="relative z-10 flex flex-col items-center justify-center h-full w-full transition-all duration-700">
+        <button onclick="activateSystem()" 
+                class="group flex flex-col items-center justify-center focus:outline-none"
+                aria-label="Enter PrimalONE System">
+                
+            <!-- Target / Enter Icon -->
+            <div class="relative flex items-center justify-center w-24 h-24 mb-4 rounded-full border border-white/20 bg-black/30 backdrop-blur-sm group-hover:border-cyan-400 group-hover:bg-cyan-900/20 transition-all duration-500 cursor-pointer shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_25px_rgba(0,240,255,0.3)]">
+                <svg class="w-10 h-10 text-white/70 group-hover:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                <!-- Radar sweep decorative ring -->
+                <div class="absolute inset-0 rounded-full border border-cyan-400/0 group-hover:border-cyan-400/50 group-hover:animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Enter Text Overlay -->
+            <span class="orbitron text-sm uppercase tracking-[0.4em] text-gray-400 group-hover:text-white transition-colors duration-300">
+                System Access
+            </span>
+        </button>
+    </div>
+
+    <!-- STATE 2: DIRECTORY / OPTIONS SCREEN -->
+    <div id="menu-state" class="absolute inset-0 z-20 flex flex-col items-center justify-center fade-out">
+        <div class="glass-panel p-10 rounded-2xl w-11/12 max-w-xl mx-auto transform translate-y-4 opacity-0 transition-all duration-700 ease-out" id="menu-modal">
+            
+            <div class="text-center mb-10">
+                <h2 class="orbitron text-2xl font-bold text-white tracking-widest uppercase border-b border-white/10 pb-4 inline-block">
+                    Select Protocol
+                </h2>
+                <p class="mt-4 text-xs font-mono text-gray-400 uppercase tracking-widest">Awaiting user authorization...</p>
+            </div>
+
+            <div class="flex flex-col gap-5">
+                <!-- Link 1: Dossier (Existing index.html) -->
+                <a href="index.html" 
+                   class="group relative overflow-hidden flex items-center justify-between p-5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom"></div>
+                    <div class="flex flex-col">
+                        <span class="orbitron text-lg font-bold text-gray-200 group-hover:text-white transition-colors">PrimalONE Dossier</span>
+                        <span class="text-xs text-gray-500 font-mono mt-1 group-hover:text-cyan-300/70">Access classified asset data and specs</span>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-500 group-hover:text-cyan-400 transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+
+                <!-- Link 2: Koru Game (Existing Koru_ The Fight for Eden.html) -->
+                <a href="Koru_ The Fight for Eden.html" 
+                   class="group relative overflow-hidden flex items-center justify-between p-5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-purple-500 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom"></div>
+                    <div class="flex flex-col">
+                        <span class="orbitron text-lg font-bold text-gray-200 group-hover:text-white transition-colors">Koru: Fight For Eden</span>
+                        <span class="text-xs text-gray-500 font-mono mt-1 group-hover:text-purple-300/70">Initialize interactive combat simulation</span>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-500 group-hover:text-purple-400 transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <span class="text-[10px] text-gray-600 font-mono uppercase tracking-widest">
+                    v2.4.1 // Secure Connection Established
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        function activateSystem() {
+            const enterState = document.getElementById('enter-state');
+            const menuState = document.getElementById('menu-state');
+            const menuModal = document.getElementById('menu-modal');
+            const bgImage = document.getElementById('bg-image');
+
+            // 1. Hide the initial Enter screen
+            enterState.classList.add('opacity-0', 'pointer-events-none');
+            
+            // Subtle zoom effect on the background image for transition depth
+            bgImage.classList.remove('scale-105');
+            bgImage.classList.add('scale-100');
+
+            // 2. Wait briefly, then show the Directory Menu
+            setTimeout(() => {
+                enterState.style.display = 'none'; // Remove from flow
+                
+                menuState.classList.remove('fade-out');
+                menuState.classList.add('fade-in');
+                
+                // Add staggered animation to the modal panel
+                setTimeout(() => {
+                    menuModal.classList.remove('translate-y-4', 'opacity-0');
+                    menuModal.classList.add('translate-y-0', 'opacity-100');
+                }, 300);
+
+            }, 500); // 500ms aligns with CSS transitions
+        }
+    </script>
+</body>
+</html>
